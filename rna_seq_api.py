@@ -9,23 +9,18 @@ from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from anaconda_navigator.utils.launch import console
 import sys
 from user_api import *
+from experiment_api import *
 
 app = Flask(__name__)
 
 api = Api(app)
 
+#################RNA-Seq User API
 api.add_resource(UserAPI, '/rna_seq/api/v1.0/users/<int:id>', endpoint='user')
 api.add_resource(UserListAPI, '/rna_seq/api/v1.0/users', endpoint = 'users')
 
 #################RNA-Seq database API#####################
-class ExperimentAPI(Resource):
-    def get(self,exp_id):
-        pass
-class ExperimentListAPI(Resource):
-    def get(self):
-        pass
-
-api.add_resource(ExperimentAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>', endpoint='experiment')
+api.add_resource(ExperimentAPI, '/rna_seq/api/v1.0/experiments/<int:id>', endpoint='experiment')
 api.add_resource(ExperimentListAPI, '/rna_seq/api/v1.0/experiments', endpoint = 'experiments')
 
 class GeneExpAPI(Resource):

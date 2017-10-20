@@ -10,67 +10,8 @@ from sqlalchemy import Table, Column, Integer, Numeric, String, Text, DateTime, 
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from flask.ext.jsontools import JsonSerializableBase
-from numba.cuda.api import synchronize
-
-
-auth = HTTPBasicAuth()
-
-@auth.get_password
-def get_password(username):
-    isExist = session.query(User).filter(User.username == username).scalar()
-    if isExist:
-        return(session.query(User.password).filter(User.username == username).scalar())
-    return(None)
-
-@auth.error_handler
-def unauthorized():
-    return(make_response(jsonify({'error': 'Unauthorized access'}), 403))
-
-# Return engine instances to create tables. 
-def createEngine(user, password, ip, database):
-    query = 'mysql+pymysql://' + user + ':' + str(password) + '@' + str(ip) + '/' + database
-    try:
-        engine = create_engine(query)
-    except sqlalchemy.exc.DatabaseError:
-        print("Can't connect mysql.")
-    return engine
-
-#create Base object
-Base = declarative_base(cls=(JsonSerializableBase,))
-
-class User(Base):
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)
-    username = Column(String(100), nullable=False)
-    password = Column(String(100), nullable=False)
-    email = Column(String(100))
- 
-# Return session instances. 
-def createSession(user, password, ip, database):
-    query = 'mysql+pymysql://' + user + ':' + str(password) + '@' + str(ip) + '/' + database
-    try:
-        engine = create_engine(query)
-    except sqlalchemy.exc.DatabaseError:
-        print("Can't connect mysql.")
-    
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    return session
-
-
-local = ['root', '1234', 'localhost', 'rna_seq2']
-server = local
-
-session = createSession(*server)
-    
-#create tables
-engine = createEngine(*server)
-Base.metadata.create_all(engine)
-users = session.query(User).all()
-
-
-
-
+from table_model import *
+from createTable import *
 
 ###########Users Access Right Api##################
 user_fields = {
@@ -152,4 +93,5 @@ class UserListAPI(Resource):
         return({ 'user': marshal(tmp_user, user_fields)}, 201)
     
     def get(self):
+        users = session.query(User).all()
         return({'users': [marshal(user, user_fields) for user in users]})
