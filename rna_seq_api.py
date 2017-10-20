@@ -8,10 +8,10 @@ from flask.ext.httpauth import HTTPBasicAuth
 from flask.ext.restful import Api, Resource, reqparse, fields, marshal
 from anaconda_navigator.utils.launch import console
 import sys
-from user_api import UserAPI, UserListAPI
-
+from user_api import *
 
 app = Flask(__name__)
+
 api = Api(app)
 
 api.add_resource(UserAPI, '/rna_seq/api/v1.0/users/<int:id>', endpoint='user')
@@ -25,6 +25,9 @@ class ExperimentListAPI(Resource):
     def get(self):
         pass
 
+api.add_resource(ExperimentAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>', endpoint='experiment')
+api.add_resource(ExperimentListAPI, '/rna_seq/api/v1.0/experiments', endpoint = 'experiments')
+
 class GeneExpAPI(Resource):
     def get(self, exp_id, gene_id):
         pass
@@ -32,6 +35,9 @@ class GeneExpAPI(Resource):
 class GeneExpListAPI(Resource):
     def get(self, exp_id):
         pass
+
+api.add_resource(GeneExpAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/genes/<int:gene_id>', endpoint='gene')
+api.add_resource(GeneExpListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/genes', endpoint = 'genes')
 
 class GeneDiffExpAPI(Resource):
     def get(self, exp_id, gene_id):
@@ -41,12 +47,19 @@ class GeneDiffExpListAPI(Resource):
     def get(self, exp_id):
         pass
 
+api.add_resource(GeneDiffExpAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/diff_exp_genes/<int:gene_id>', endpoint='diff_exp_gene')
+api.add_resource(GeneDiffExpListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/diff_exp_genes', endpoint = 'diff_exp_genes')
+
 class KeggPathwayAPI(Resource):
     def get(self, exp_id, kegg_id):
         pass
 class KeggPathwayListAPI(Resource):
     def get(self, exp_id):
         pass
+    
+api.add_resource(KeggPathwayAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/kegg_pathways/<int:kegg_id>', endpoint='kegg_pathway')
+api.add_resource(KeggPathwayListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/kegg_pathways', endpoint = 'kegg_pathways')
+
 class ReactomeAPI(Resource):
     def get(self, exp_id, reactome_id):
         pass
@@ -54,6 +67,8 @@ class ReactomeListAPI(Resource):
     def get(self, exp_ud):
         pass
 
+api.add_resource(ReactomeAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/reactome_pathways/<int:reactome_id>', endpoint='reactome_pathway')
+api.add_resource(ReactomeListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/reactome_pathways', endpoint = 'reactome_pathways')
 
 
 
