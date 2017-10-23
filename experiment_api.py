@@ -15,7 +15,7 @@ from createTable import *
 
 experiment_fields = {
     'description': fields.String,
-    'date': fields.String,
+    'date': fields.DateTime(dt_format='rfc822'),
     'tech': fields.String,
     'comments': fields.String,
     'mim_read_length': fields.String,
@@ -39,5 +39,4 @@ class ExperimentListAPI(Resource):
     decorators = [auth.login_required]
     def get(self):
         experiments = session.query(Experiment).all()
-        print(experiments, file=sys.stdout)
         return({'experiments': [marshal(experiment, experiment_fields) for experiment in experiments]})

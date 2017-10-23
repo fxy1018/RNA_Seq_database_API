@@ -45,7 +45,6 @@ class UserAPI(Resource):
             abort(404)
 
         args = self.reqparse.parse_args()
-        print(args, file=sys.stdout)
         session.query(User).filter(User.id == id).update(args)
         session.commit()
         
@@ -72,7 +71,6 @@ class UserListAPI(Resource):
         self.reqparse.add_argument('email', type = str, default = '',
             help = 'Email to create user', location = 'json')
         super(UserListAPI, self).__init__()
-    
     
     def post(self):
         args = self.reqparse.parse_args()

@@ -47,8 +47,6 @@ def createSession(user, password, ip, database):
     return session
 
 
-
-
 local = ['root', '1234', 'localhost', 'rna_seq2']
 server = local
 

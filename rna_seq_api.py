@@ -10,6 +10,9 @@ from anaconda_navigator.utils.launch import console
 import sys
 from user_api import *
 from experiment_api import *
+from gene_api import *
+from gene_diff_api import *
+from sample_api import *
 
 app = Flask(__name__)
 
@@ -23,24 +26,11 @@ api.add_resource(UserListAPI, '/rna_seq/api/v1.0/users', endpoint = 'users')
 api.add_resource(ExperimentAPI, '/rna_seq/api/v1.0/experiments/<int:id>', endpoint='experiment')
 api.add_resource(ExperimentListAPI, '/rna_seq/api/v1.0/experiments', endpoint = 'experiments')
 
-class GeneExpAPI(Resource):
-    def get(self, exp_id, gene_id):
-        pass
-
-class GeneExpListAPI(Resource):
-    def get(self, exp_id):
-        pass
+api.add_resource(SampleAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/samples/<int:sample_id>', endpoint='sample')
+api.add_resource(SampleListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/samples', endpoint='samples')
 
 api.add_resource(GeneExpAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/genes/<int:gene_id>', endpoint='gene')
 api.add_resource(GeneExpListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/genes', endpoint = 'genes')
-
-class GeneDiffExpAPI(Resource):
-    def get(self, exp_id, gene_id):
-        pass
-
-class GeneDiffExpListAPI(Resource):
-    def get(self, exp_id):
-        pass
 
 api.add_resource(GeneDiffExpAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/diff_exp_genes/<int:gene_id>', endpoint='diff_exp_gene')
 api.add_resource(GeneDiffExpListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/diff_exp_genes', endpoint = 'diff_exp_genes')
