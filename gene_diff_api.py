@@ -68,7 +68,8 @@ class GeneDiffExpListAPI(Resource):
         args = self.reqparse.parse_args()
         condition1 = args['condition1']
         condition2 = args['condition2']
-        diff_genes = session.query(DiffGeneExpression).filter(DiffGeneExpression.condition1_id == condition1,
+        diff_genes = session.query(DiffGeneExpression).filter(DiffGeneExpression.experiment_id == exp_id,
+                                                              DiffGeneExpression.condition1_id == condition1,
                                                               DiffGeneExpression.condition2_id == condition2).all()
         
         return({'diff_genes': marshal(diff_genes, gene_diff_fields)}, 201)
