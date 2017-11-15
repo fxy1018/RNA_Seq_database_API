@@ -13,6 +13,7 @@ from experiment_api import *
 from gene_api import *
 from gene_diff_api import *
 from sample_api import *
+from condition_api import *
 
 app = Flask(__name__)
 
@@ -34,6 +35,10 @@ api.add_resource(GeneExpListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/gen
 
 api.add_resource(GeneDiffExpAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/diff_exp_genes/<int:gene_id>', endpoint='diff_exp_gene')
 api.add_resource(GeneDiffExpListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/diff_exp_genes', endpoint = 'diff_exp_genes')
+
+api.add_resource(ConditionAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/conditions/<int:condition_id>', endpoint = 'condition')
+api.add_resource(ConditionListAPI, '/rna_seq/api/v1.0/experiments/<int:exp_id>/conditions', endpoint='conditions')
+
 
 class KeggPathwayAPI(Resource):
     def get(self, exp_id, kegg_id):

@@ -14,6 +14,7 @@ from table_model import *
 from createTable import *
 
 experiment_fields = {
+    'id':fields.Integer,
     'description': fields.String,
     'date': fields.DateTime(dt_format='rfc822'),
     'tech': fields.String,
@@ -24,7 +25,7 @@ experiment_fields = {
     }
 
 class ExperimentAPI(Resource):
-    decorators = [auth.login_required]
+#     decorators = [auth.login_required]
         
     def get(self,id):
         isExist = session.query(Experiment.id).filter(Experiment.id == id).scalar()
@@ -36,7 +37,7 @@ class ExperimentAPI(Resource):
     
  
 class ExperimentListAPI(Resource):
-    decorators = [auth.login_required]
+#     decorators = [auth.login_required]
     def get(self):
         experiments = session.query(Experiment).all()
         return({'experiments': [marshal(experiment, experiment_fields) for experiment in experiments]})
